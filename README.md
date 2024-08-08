@@ -18,11 +18,14 @@ Given that most Electron.js boilerplates are usually outdated or don't work prop
 - ☐ Code Linting
 - ☐ ESM support
 - ☐ VS Code integration
-- ☐ TypeScript
+- ☑ TypeScript
+  - ☐ Working paths & aliases
   - ☐ Typed IPC
 - ☐ Webpack with pre-defined loaders
 - ☐ React
+  - ☐ React dev tools
 - ☐ Redux/Zundstand (TBD)
+  - ☐ Redux dev tools
 - ☐ i18n
 - ☐ User stored preferences
 - ☐ Restore window positions

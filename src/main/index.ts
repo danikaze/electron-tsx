@@ -1,19 +1,21 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, ipcMain } = require('electron');
-const path = require('node:path');
+import { app, BrowserWindow, ipcMain } from 'electron';
+
+declare const ENTRY_POINT_PRELOAD: string;
+declare const ENTRY_POINT_HTML: string;
 
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1024,
+    height: 768,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: ENTRY_POINT_PRELOAD,
     },
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html');
+  mainWindow.loadFile(ENTRY_POINT_HTML);
 
   console.log(`Message from main.js`);
 

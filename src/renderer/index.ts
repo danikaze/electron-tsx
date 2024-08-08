@@ -1,3 +1,4 @@
+
 /**
  * This file is loaded via the <script> tag in the index.html file and will
  * be executed in the renderer process for that window. No Node.js APIs are
@@ -6,4 +7,4 @@
  * to expose Node.js functionality from the main process.
  */
 console.log('Message from renderer.js');
-app.ready('renderer');
+((window as any).app as any).ready('renderer');
