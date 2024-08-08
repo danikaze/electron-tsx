@@ -1,12 +1,13 @@
 {
   "name": "electron-tsx",
   "version": "0.1.0",
-  "description": "Electron app with TypeScript and React",
+  "description": "Electron boilerplate with TypeScript and React",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/danikaze/electron-tsx",
+  "author": "danikaze <danikaze@gmail.com>",
   "keywords": [
     "Electron",
     "quick",
@@ -20,7 +21,6 @@
     "eslint",
     "prettier"
   ],
-  "author": "danikaze <danikaze@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "electron": "^31.3.1"
