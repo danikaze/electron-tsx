@@ -1,3 +1,8 @@
+import { contextBridge } from 'electron';
+
+import { ipcRenderer } from '@/ipc';
+import { prod } from '@/utils/test';
+
 /**
  * The preload script runs before `index.html` is loaded
  * in the renderer. It has access to web APIs as well as
@@ -19,9 +24,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
 console.log(`Message from preload.js`);
 
-const { ipcRenderer, contextBridge } = require('electron');
 ipcRenderer.addListener('msg', (ev, data) => console.log(data));
 
 contextBridge.exposeInMainWorld('app', {
   ready: (caller) => ipcRenderer.invoke('ready', caller),
 });
+
+prod(3, 5);

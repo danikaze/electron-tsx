@@ -1,30 +1,37 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, ipcMain } = require('electron');
-const path = require('node:path');
+import { app, BrowserWindow } from 'electron';
+import { TypedBrowserWindow } from 'types/electron-typed-ipc';
+
+import { ipcMain } from '@/ipc';
+import { IpcEvents } from '@/ipc/events';
+import { prod } from '@/utils/test';
+
+declare const ENTRY_POINT_PRELOAD: string;
+declare const ENTRY_POINT_HTML: string;
 
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1024,
+    height: 768,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: ENTRY_POINT_PRELOAD,
     },
-  });
+  }) as TypedBrowserWindow<IpcEvents>;
 
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html');
+  mainWindow.loadFile(ENTRY_POINT_HTML);
 
   console.log(`Message from main.js`);
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
 
-  ipcMain.handle('ready', (ev, data) => {
-    console.log(`Ready via IPC (${data})`);
+  ipcMain.handle('ready', (ev, what) => {
+    console.log(`Ready via IPC (${what})`);
     const reply = 'MSG via IPC';
     console.log(`  - sending: ${reply}`);
-    mainWindow.webContents.send('msg', reply);
+    ev.sender.send('msg', reply);
   });
 }
 
@@ -50,3 +57,5 @@ app.on('window-all-closed', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+prod(3, 5);
