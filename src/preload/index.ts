@@ -1,3 +1,6 @@
+import { contextBridge } from 'electron';
+
+import { ipcRenderer } from '@/ipc';
 import { prod } from '@/utils/test';
 
 /**
@@ -21,7 +24,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
 console.log(`Message from preload.js`);
 
-const { ipcRenderer, contextBridge } = require('electron');
 ipcRenderer.addListener('msg', (ev, data) => console.log(data));
 
 contextBridge.exposeInMainWorld('app', {

@@ -1,6 +1,10 @@
 // Modules to control application life and create native browser window
+import { app, BrowserWindow } from 'electron';
+import { TypedBrowserWindow } from 'types/electron-typed-ipc';
+
+import { ipcMain } from '@/ipc';
+import { IpcEvents } from '@/ipc/events';
 import { prod } from '@/utils/test';
-import { app, BrowserWindow, ipcMain } from 'electron';
 
 declare const ENTRY_POINT_PRELOAD: string;
 declare const ENTRY_POINT_HTML: string;
@@ -13,7 +17,7 @@ function createWindow() {
     webPreferences: {
       preload: ENTRY_POINT_PRELOAD,
     },
-  });
+  }) as TypedBrowserWindow<IpcEvents>;
 
   // and load the index.html of the app.
   mainWindow.loadFile(ENTRY_POINT_HTML);
@@ -23,11 +27,11 @@ function createWindow() {
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
 
-  ipcMain.handle('ready', (ev, data) => {
-    console.log(`Ready via IPC (${data})`);
+  ipcMain.handle('ready', (ev, what) => {
+    console.log(`Ready via IPC (${what})`);
     const reply = 'MSG via IPC';
     console.log(`  - sending: ${reply}`);
-    mainWindow.webContents.send('msg', reply);
+    ev.sender.send('msg', reply);
   });
 }
 

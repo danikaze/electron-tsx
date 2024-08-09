@@ -21,7 +21,7 @@ Given that most Electron.js boilerplates are usually outdated or don't work prop
 - ☐ Main process restarted when modified
 - ☑ TypeScript
   - ☑ Working paths & aliases
-  - ☐ Typed IPC
+  - ☑ Typed IPC
 - ☐ Webpack with pre-defined loaders
 - ☐ React
   - ☐ React dev tools
