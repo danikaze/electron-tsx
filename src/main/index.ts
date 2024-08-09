@@ -1,4 +1,5 @@
 // Modules to control application life and create native browser window
+import { prod } from '@/utils/test';
 import { app, BrowserWindow, ipcMain } from 'electron';
 
 declare const ENTRY_POINT_PRELOAD: string;
@@ -52,3 +53,5 @@ app.on('window-all-closed', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+prod(3, 5);

@@ -1,3 +1,5 @@
+// import via aliases (@ points to {PROJECT_ROOT}/src)
+import { prod } from '@/utils/test';
 
 /**
  * This file is loaded via the <script> tag in the index.html file and will
@@ -8,3 +10,5 @@
  */
 console.log('Message from renderer.js');
 ((window as any).app as any).ready('renderer');
+
+prod(3, 5);

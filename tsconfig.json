@@ -5,7 +5,12 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
-    "lib": ["DOM", "ES2023"]
+    "lib": ["DOM", "ES2023"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
-  "include": ["**/*"]
+  "include": ["**/*"],
+  "exclude": ["build"]
 }

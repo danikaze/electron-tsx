@@ -1,3 +1,5 @@
+import { prod } from '@/utils/test';
+
 /**
  * The preload script runs before `index.html` is loaded
  * in the renderer. It has access to web APIs as well as
@@ -25,3 +27,5 @@ ipcRenderer.addListener('msg', (ev, data) => console.log(data));
 contextBridge.exposeInMainWorld('app', {
   ready: (caller) => ipcRenderer.invoke('ready', caller),
 });
+
+prod(3, 5);
