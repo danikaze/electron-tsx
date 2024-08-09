@@ -1,8 +1,10 @@
 import {
-  BrowserWindow,
+  type BrowserWindow,
+  type WebContents,
+  // eslint-disable-next-line no-restricted-imports
   ipcMain as electronIpcMain,
+  // eslint-disable-next-line no-restricted-imports
   ipcRenderer as electronIpcRenderer,
-  WebContents
 } from 'electron';
 import { TypedIpcMain, TypedIpcRenderer } from 'types/electron-typed-ipc';
 
