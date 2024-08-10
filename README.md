@@ -18,7 +18,7 @@ Given that most Electron.js boilerplates are usually outdated or don't work prop
 - ☐ Code Linting
 - ☐ ESM support
 - ☐ VS Code integration
-- ☐ Main process restarted when modified
+- ☑ Main process restarted when modified
 - ☑ TypeScript
   - ☑ Working paths & aliases
   - ☑ Typed IPC
