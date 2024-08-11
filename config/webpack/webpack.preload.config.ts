@@ -1,9 +1,10 @@
 import { Configuration } from 'webpack';
 import 'webpack-dev-server'; // needed for Configuration types
 
-import { getWebpackConfig } from './webpack.base.config';
+import { getProjectPath } from '../utils/get-project-path';
+import { getWebpackConfig } from './get-webpack-config';
 
-export const preloadConfig = getWebpackConfig('preload', ({ getProjectPath }) => {
+export const preloadConfig = getWebpackConfig('preload', () => {
   const config: Configuration = {
     target: 'electron-renderer',
     entry: {

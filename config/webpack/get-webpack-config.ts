@@ -5,23 +5,14 @@ import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import { Configuration, DefinePlugin, CleanPlugin} from 'webpack';
 
 import { version } from '../../package.json';
-import { getDateString } from './utils/get-date-string';
-import { jsonify } from './utils/jsonify';
+import { getDateString } from '../utils/get-date-string';
+import { jsonify } from '../utils/jsonify';
+import { getProjectPath } from '../utils/get-project-path';
 
 export type WebpackTarget = 'main' | 'preload' | 'renderer';
 
 export type GetWebpackConfigCallbackData = {
   isProduction: boolean;
-  /**
-   * Combines the use of `path.join` and provides the base root project folder
-   * @param path path relative to the project root folder
-   * @returns absolute path
-   */
-  getProjectPath: (...path: string[]) => string
-}
-
-function getProjectPath(...path: string[]): string {
-  return join(__dirname,'..','..', ...path);
 }
 
 /**
@@ -99,7 +90,6 @@ export function getWebpackConfig(
 
   const config = typeof configBuilder === 'function' ? configBuilder({
     isProduction,
-    getProjectPath
   }) : configBuilder;
 
   return merge(baseConfig, config);
