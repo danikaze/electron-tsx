@@ -9,7 +9,7 @@ Given that most Electron.js boilerplates are usually outdated or don't work prop
 
 - ☑ App executable package
   - ☑ Windows
-  - ☐ Mac
+  - ☑ Mac
   - ☐ Linux
 - ☑ ASAR packing
 - ☐ Application icons
