@@ -4,10 +4,13 @@
   "description": "Electron boilerplate with TypeScript and React",
   "main": "build/main",
   "scripts": {
+    "build": "cross-env NODE_ENV=production webpack",
     "dev": "concurrently 'npm run dev:build' 'npm run dev:start'",
     "dev:build": "cross-env NODE_ENV=development webpack",
     "dev:start": "cross-env NODE_ENV=development electronmon .",
-    "lint": "cross-env NODE_ENV=development eslint ."
+    "lint": "cross-env NODE_ENV=development eslint .",
+    "package": "npm run build && config/package/index.ts",
+    "package:pack": "config/package/index.ts"
   },
   "repository": "https://github.com/danikaze/electron-tsx",
   "author": "danikaze <danikaze@gmail.com>",
@@ -36,6 +39,7 @@
     "logLevel": "quiet"
   },
   "devDependencies": {
+    "@electron/packager": "^18.3.3",
     "@types/node": "^22.1.0",
     "@types/webpack": "^5.28.5",
     "@types/webpack-bundle-analyzer": "^4.7.0",
