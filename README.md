@@ -11,6 +11,11 @@ Given that most Electron.js boilerplates are usually outdated or don't work prop
   - ☑ Windows
   - ☑ Mac
   - ☐ Linux
+- ☑ App installer
+  - ☑ Windows
+  - ☐ Mac
+  - ☐ Linux
+- ☐ Signed files
 - ☑ ASAR packing
 - ☐ Application icons
 - ☐ Git Hooks
