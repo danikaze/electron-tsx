@@ -1,6 +1,8 @@
 // Modules to control application life and create native browser window
 import { app, BrowserWindow } from 'electron';
-import { TypedBrowserWindow } from 'types/electron-typed-ipc';
+import { nanoid } from 'nanoid';
+
+import type { TypedBrowserWindow } from 'types/electron-typed-ipc.d.ts';
 
 import { ipcMain } from '@/ipc';
 import { IpcEvents } from '@/ipc/events';
@@ -20,7 +22,7 @@ function createWindow() {
   // and load the index.html of the app.
   mainWindow.loadFile(ENTRY_POINT_HTML);
 
-  console.log(`Message from main.js`);
+  console.log(`Message from main.js ${nanoid()}`);
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();

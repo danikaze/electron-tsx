@@ -1,4 +1,4 @@
-import { AppConfig } from './config/types';
+import type { AppConfig } from './config/types.d.ts';
 
 /**
  * Can be a constant `AppConfig` object, or a function returning it
