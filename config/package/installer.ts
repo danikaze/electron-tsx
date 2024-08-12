@@ -10,6 +10,7 @@ import packageJson from '../../package.json';
 import { AppConfig } from '../types';
 import { getAppConfig } from '../utils/get-app-config';
 import { getAuthorName } from '../utils/get-author-name';
+import { getIconPath } from '../utils/icons';
 import { installerOutPath, packageOutPath } from '../utils/paths';
 
 type WindowsArch = Exclude<MSICreatorOptions['arch'], undefined>;
@@ -28,6 +29,7 @@ async function run(): Promise<void> {
  * https://github.com/electron-userland/electron-wix-msi
  */
 async function createInstallers(appConfig?: AppConfig) {
+  const startTime = Date.now();
   console.log('Creating installers for:');
   const bundledFolders = readdirSync(packageOutPath)
     .map(folder => join(packageOutPath, folder))
@@ -58,7 +60,7 @@ async function createInstallers(appConfig?: AppConfig) {
       }
     }
 
-    console.log(`- Creating installer ${i+1}/${bundledFolders.length} (${dirname})...`);
+    console.log(`\n- Creating installer ${i+1}/${bundledFolders.length} (${dirname})...`);
     try {
       await createInstaller(
         appConfig,
@@ -72,7 +74,15 @@ async function createInstallers(appConfig?: AppConfig) {
       stats.error++;
     }
   }
-  console.log(`All Done! (Total: ${bundledFolders.length} / OK: ${stats.ok} / Skipped: ${stats.skip} / Errors: ${stats.error})`);
+
+  const ellapsed = Date.now() - startTime;
+  console.log([
+    `\nAll Done! (Total: ${bundledFolders.length}`,
+    `OK: ${stats.ok}`,
+    `Skipped: ${stats.skip}`,
+    `Errors: ${stats.error})`,
+    `Ellapsed: ${ellapsed} ms`,
+  ].join(' / '));
 }
 
 /**
@@ -96,7 +106,7 @@ async function createInstaller(
 ): Promise<void> {
   mkdirpSync(outFolder);
 
-  const options = getMSICreatorOptions(appConfig, outFolder, folder);
+  const options = await getMSICreatorOptions(appConfig, outFolder, folder);
   const msiCreator = new MSICreator(options);
 
   const supportBinaries = await msiCreator.create();
@@ -107,11 +117,11 @@ async function createInstaller(
 /**
  * Creates the options to pass to the MSICreator instance from the app configuration
  */
-function getMSICreatorOptions(
+async function getMSICreatorOptions(
   config: AppConfig,
   outFolder: string,
   folder: string,
-): MSICreatorOptions {
+): Promise<MSICreatorOptions> {
   const arch = getArchFromFolder(folder)
   return {
     arch,
@@ -125,7 +135,8 @@ function getMSICreatorOptions(
     shortcutFolderName: config.win?.shortcutFolderName,
     shortcutName: config.win?.shortcutName,
     version: config.appVersion ?? packageJson.version,
-    ui: config?.win?.installerUi
+    ui: config?.win?.installerUi,
+    icon: await getIconPath('win32')
   };
 }
 

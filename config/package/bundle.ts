@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 
-import packager, { Options } from '@electron/packager';
+import packager, { OfficialArch, OfficialPlatform, Options } from '@electron/packager';
 import { dirname, relative } from 'path';
 
 import packageJson from '../../package.json';
@@ -8,6 +8,7 @@ import { AppConfig } from '../types';
 import { getAppConfig } from '../utils/get-app-config';
 import { getAuthorName } from '../utils/get-author-name';
 import { getProjectPath } from '../utils/get-project-path';
+import { getIconPath } from '../utils/icons';
 import { packageOutPath, webpackOutPath } from '../utils/paths';
 
 run();
@@ -15,7 +16,7 @@ run();
 async function run(): Promise<void> {
   const appConfig = await getAppConfig();
   const options = await getPackagerOptions(appConfig);
-  await bundleElectronApp(options);
+  await bundleElectronApps(options);
 }
 
 async function getPackagerOptions(appConfig: AppConfig): Promise<Options> {
@@ -38,7 +39,8 @@ async function getPackagerOptions(appConfig: AppConfig): Promise<Options> {
       FileDescription: appConfig.win?.shortName ?? appConfig.name ?? packageJson.name,
       OriginalFilename: appConfig.executableName ?? packageJson.name,
       InternalName: appConfig.executableName ?? packageJson.name
-    }
+    },
+    icon: appConfig.iconPath
   };
 
   return options;
@@ -72,10 +74,10 @@ function getIgnoreFn(config: AppConfig): (path: string) => boolean {
   };
 }
 
-function getDefaultPlatforms(): Exclude<AppConfig['platform'], 'all'> {
-  if (process.platform === 'win32') return 'win32';
+function getDefaultPlatforms(): OfficialPlatform[] {
+  if (process.platform === 'win32') return ['win32'];
   if (process.platform === 'darwin') return ['darwin', 'mas'];
-  if (process.platform === 'linux') return 'linux';
+  if (process.platform === 'linux') return ['linux'];
 
   throw new Error([
     `Unknown platform "${process.platform}". `,
@@ -83,8 +85,72 @@ function getDefaultPlatforms(): Exclude<AppConfig['platform'], 'all'> {
   ].join(''));
 }
 
-async function bundleElectronApp(options?: Options) {
-  console.log('Bundling...');
+function getAllArchs(platform: OfficialPlatform): OfficialArch[] {
+  const mapping: Record<OfficialPlatform, OfficialArch[]> = {
+    win32: ['x64', 'ia32', 'arm64'],
+    linux: ['x64', 'arm64', 'armv7l'],
+    darwin: ['arm64', 'x64', 'universal'],
+    mas: ['arm64', 'x64', 'universal'],
+  };
+  return mapping[platform];
+}
+
+/**
+ * Wrapper to build all combinations of platforms x archs possible
+ * Avoid relying on the `all` accepted by `@electron/packager` so the icon
+ * can be properly chosen for each case
+ *
+ * It also allows bundling in parallel so it's faster (maybe?)
+ */
+async function bundleElectronApps(options: Options) {
+  const apps = getPlatformArchCombination(options);
+  console.log('Bundling apps...');
+
+  const startTime = Date.now();
+  const promises: Promise<void>[] = apps.map(async ([platform, arch], i) => {
+    return bundleElectronApp({
+      ...options,
+      platform,
+      arch,
+      icon: await getIconPath(platform)
+    });
+  });
+
+  await Promise.all(promises);
+  const ellapsed = Date.now() - startTime;
+  console.log(`All Done! (Ellapsed: ${ellapsed} ms)`);
+}
+
+/**
+ * Get all the combinations of Platforms x Archs from the given options
+ */
+function getPlatformArchCombination(options: Options): [
+  platform: OfficialPlatform,
+  arch: OfficialArch
+][] {
+  const res: [platform: OfficialPlatform, arch: OfficialArch][] = [];
+
+  const platforms = (options.platform === 'all'
+    ? getDefaultPlatforms()
+    : Array.isArray(options.platform)
+      ? options.platform
+      : [options.platform]) as OfficialPlatform[];
+
+  for (const platform of platforms) {
+    const archs = (options.arch === 'all'
+      ? getAllArchs(platform)
+      : Array.isArray(options.arch)
+        ? options.arch
+        : [options.arch]) as OfficialArch[]
+
+    for (const arch of archs) {
+      res.push([platform, arch]);
+    }
+  }
+
+  return res;
+}
+
+async function bundleElectronApp(options: Options) {
   await packager(options);
-  console.log('Done!');
 }

@@ -128,7 +128,7 @@ export type AppConfig = {
    *
    * Check [the docs](./docs/icons.md) on how to use it across multiple platforms.
    */
-  icon?: string;
+  iconPath?: string;
   /**
    * Windows specific configuration values
    */

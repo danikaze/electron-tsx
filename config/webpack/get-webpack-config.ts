@@ -6,6 +6,7 @@ import { merge } from 'webpack-merge';
 
 import { version } from '../../package.json';
 import { getDateString } from '../utils/get-date-string';
+import { getIconPath } from '../utils/icons';
 import { jsonify } from '../utils/jsonify';
 import { webpackOutPath } from '../utils/paths';
 
@@ -21,7 +22,7 @@ export type GetWebpackConfigCallbackData = {
  * @param configBuilder Config or function returning the webpack config that will extend the provided base
  * @returns webpack configuration for the given `type` of build.
  */
-export function getWebpackConfig(
+export async function getWebpackConfig(
   type: WebpackTarget,
   configBuilder: Omit<Configuration, 'path'>
   | ((data: GetWebpackConfigCallbackData) => Omit<Configuration, 'path'>)
@@ -68,8 +69,9 @@ export function getWebpackConfig(
           'process.env.NODE_ENV':isProduction ? 'production' : 'development',
           'process.env.PACKAGE_VERSION': version,
           'process.env.BUILD_DATE': getDateString(),
-          'ENTRY_POINT_PRELOAD': join(webpackOutPath, 'preload', 'index.js'),
-          'ENTRY_POINT_HTML': join(webpackOutPath, 'renderer', 'index.html'),
+          ENTRY_POINT_PRELOAD: join(webpackOutPath, 'preload', 'index.js'),
+          ENTRY_POINT_HTML: join(webpackOutPath, 'renderer', 'index.html'),
+          APP_ICON_PNG_PATH: await getIconPath('linux'),
         }),
       ),
     ],
