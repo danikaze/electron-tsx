@@ -7,12 +7,17 @@ Given that most Electron.js boilerplates are usually outdated or don't work prop
 
 ## Features
 
-- ☐ App executable package
-  - ☐ Windows
+- ☑ App executable package
+  - ☑ Windows
+  - ☑ Mac
+  - ☐ Linux
+- ☑ App installer
+  - ☑ Windows
   - ☐ Mac
   - ☐ Linux
+- ☐ Signed files
+- ☑ ASAR packing
 - ☐ Application icons
-- ☐ ASAR packing
 - ☐ Git Hooks
 - ☐ Unit Testing
 - ☐ Code Linting

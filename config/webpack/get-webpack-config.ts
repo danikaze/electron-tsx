@@ -1,27 +1,19 @@
-import { merge } from 'webpack-merge';
 import { join } from 'path';
 import TerserPlugin from 'terser-webpack-plugin';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
-import { Configuration, DefinePlugin, CleanPlugin} from 'webpack';
+import { CleanPlugin, Configuration, DefinePlugin } from 'webpack';
+import { merge } from 'webpack-merge';
 
 import { version } from '../../package.json';
-import { getDateString } from './utils/get-date-string';
-import { jsonify } from './utils/jsonify';
+import { getDateString } from '../utils/get-date-string';
+import { jsonify } from '../utils/jsonify';
+import { webpackOutPath } from '../utils/paths';
 
 export type WebpackTarget = 'main' | 'preload' | 'renderer';
 
 export type GetWebpackConfigCallbackData = {
   isProduction: boolean;
-  /**
-   * Combines the use of `path.join` and provides the base root project folder
-   * @param path path relative to the project root folder
-   * @returns absolute path
-   */
-  getProjectPath: (...path: string[]) => string
-}
-
-function getProjectPath(...path: string[]): string {
-  return join(__dirname,'..','..', ...path);
+  baseOutPath: string;
 }
 
 /**
@@ -34,6 +26,7 @@ export function getWebpackConfig(
   configBuilder: Omit<Configuration, 'path'>
   | ((data: GetWebpackConfigCallbackData) => Omit<Configuration, 'path'>)
 ) {
+  const baseOutPath = join(webpackOutPath, type);
   const isProduction = process.env.NODE_ENV === 'production';
 
   const baseConfig: Configuration = {
@@ -41,7 +34,7 @@ export function getWebpackConfig(
     watch: !isProduction,
     devtool: isProduction ? false : 'source-map',
     output: {
-      path: getProjectPath('build', type)
+      path: baseOutPath
     },
     stats: {
       assetsSort: 'name',
@@ -75,8 +68,8 @@ export function getWebpackConfig(
           'process.env.NODE_ENV':isProduction ? 'production' : 'development',
           'process.env.PACKAGE_VERSION': version,
           'process.env.BUILD_DATE': getDateString(),
-          'ENTRY_POINT_PRELOAD': getProjectPath('build', 'preload', 'index.js'),
-          'ENTRY_POINT_HTML': getProjectPath('build', 'renderer', 'index.html'),
+          'ENTRY_POINT_PRELOAD': join(webpackOutPath, 'preload', 'index.js'),
+          'ENTRY_POINT_HTML': join(webpackOutPath, 'renderer', 'index.html'),
         }),
       ),
     ],
@@ -91,7 +84,7 @@ export function getWebpackConfig(
       ],
     },
     resolve: {
-      modules: [getProjectPath('src'), 'node_modules'],
+      modules: [join(baseOutPath, 'src'), 'node_modules'],
       extensions: ['.tsx', '.ts', '.jsx', '.js', '...'],
       plugins: [new TsconfigPathsPlugin()],
     },
@@ -99,7 +92,7 @@ export function getWebpackConfig(
 
   const config = typeof configBuilder === 'function' ? configBuilder({
     isProduction,
-    getProjectPath
+    baseOutPath,
   }) : configBuilder;
 
   return merge(baseConfig, config);

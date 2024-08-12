@@ -33,6 +33,11 @@ function createWindow() {
     console.log(`  - sending: ${reply}`);
     ev.sender.send('msg', reply);
   });
+
+  // if not removed, on Mac gives an error while trying to register another
+  // handler to the same channel, when opening the window again as it's not
+  // really closed unless done on Cmd + Q
+  mainWindow.on('close', () => ipcMain.removeHandler('ready'));
 }
 
 // This method will be called when Electron has finished

@@ -2,11 +2,12 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { Configuration } from 'webpack';
 import 'webpack-dev-server'; // needed for Configuration types
 
-import { getWebpackConfig } from './webpack.base.config';
+import { getProjectPath } from '../utils/get-project-path';
+import { getWebpackConfig } from './get-webpack-config';
 
 const DEV_SERVER_PORT = parseInt(process.env.PORT || '9000');
 
-export const rendererConfig = getWebpackConfig('renderer', ({ isProduction, getProjectPath }) => {
+export const rendererConfig = getWebpackConfig('renderer', ({ isProduction }) => {
   const config: Configuration = {
     target: 'electron-renderer',
     entry: {
