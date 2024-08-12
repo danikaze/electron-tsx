@@ -6,14 +6,12 @@ import { ipcMain } from '@/ipc';
 import { IpcEvents } from '@/ipc/events';
 import { prod } from '@/utils/test';
 
-declare const ENTRY_POINT_PRELOAD: string;
-declare const ENTRY_POINT_HTML: string;
-
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 1024,
     height: 768,
+    icon: APP_ICON_PNG_PATH,
     webPreferences: {
       preload: ENTRY_POINT_PRELOAD,
     },

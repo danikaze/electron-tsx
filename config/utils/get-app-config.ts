@@ -24,6 +24,7 @@ export async function getAppConfig(): Promise<AppConfig> {
     packMapFiles: process.env.NODE_ENV !== 'production',
     platform: getDefaultPlatforms(),
     asar: true,
+    iconPath: 'config/icons/icon',
     ...userConfig
   };
 }
