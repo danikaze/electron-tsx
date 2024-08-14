@@ -11,7 +11,9 @@ describe('test for test files and configuration', () => {
 
   describe('esm', () => {
     it('should allow tests import ESM files', () => {
-      expect(typeof nanoid()).toBe('string');
+      // adding a message to expect should also work
+      // thanks to jest-expect-message
+      expect(typeof nanoid(), 'ESM imports should work').toBe('string');
     });
   });
 });

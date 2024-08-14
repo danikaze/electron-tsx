@@ -46,6 +46,7 @@
     "@alex_neo/jest-expect-message": "^1.0.5",
     "@electron/packager": "^18.3.3",
     "@types/jest": "^29.5.12",
+    "@types/jest-expect-message": "^1.1.0",
     "@types/node": "^22.1.0",
     "@types/webpack": "^5.28.5",
     "@types/webpack-bundle-analyzer": "^4.7.0",
