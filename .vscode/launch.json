@@ -20,6 +20,15 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-    }
+    },
+    {
+      "name": "Attach (to dev:test)",
+      "port": 9229,
+      "request": "attach",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "node"
+    },
   ]
 }
