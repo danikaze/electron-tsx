@@ -19,7 +19,7 @@ Given that most Electron.js boilerplates are usually outdated or don't work prop
 - ☑ ASAR packing
 - ☑ Application icons
 - ☐ Git Hooks
-- ☐ Unit Testing
+- ☑ Unit Testing
 - ☐ Code Linting
 - ☑ ESM support
 - ☑ VS Code integration
@@ -31,7 +31,7 @@ Given that most Electron.js boilerplates are usually outdated or don't work prop
 - ☐ React
   - ☐ React dev tools
   - ☐ Hot Module Reloading
-- ☐ Redux/Zundstand (TBD)
+- ☐ Redux/Zustand (TBD)
   - ☐ Redux dev tools
 - ☐ i18n
 - ☐ User stored preferences
