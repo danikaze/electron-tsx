@@ -1,9 +1,9 @@
 import { existsSync, readdirSync } from 'fs';
 import { basename, dirname, extname, join } from 'path';
+import { OfficialPlatform } from '@electron/packager';
 
 import { getAppConfig } from './get-app-config';
 import { getProjectPath } from './get-project-path';
-import { OfficialPlatform } from '@electron/packager';
 
 type Platform = Exclude<OfficialPlatform, 'mas'>;
 

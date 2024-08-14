@@ -1,5 +1,10 @@
 #!/usr/bin/env ts-node
 
+if (process.platform !== 'win32') {
+  console.error('Creation of installers is only supported on Windows currently');
+  process.exit(1);
+}
+
 import { MSICreator, MSICreatorOptions } from 'electron-wix-msi';
 import { existsSync, readdirSync, statSync } from 'fs';
 import { sync as mkdirpSync } from 'mkdirp';

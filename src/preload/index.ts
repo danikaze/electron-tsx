@@ -1,4 +1,5 @@
 import { contextBridge } from 'electron';
+import { nanoid } from 'nanoid';
 
 import { ipcRenderer } from '@/ipc';
 import { prod } from '@/utils/test';
@@ -22,7 +23,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-console.log(`Message from preload.js`);
+console.log(`Message from preload.js ${nanoid()}`);
 
 ipcRenderer.addListener('msg', (ev, data) => console.log(data));
 

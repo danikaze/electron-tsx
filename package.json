@@ -2,16 +2,17 @@
   "name": "electron-tsx",
   "version": "0.1.0",
   "description": "Electron boilerplate with TypeScript and React",
-  "main": "out/build/main",
+  "main": "out/build/main/index.mjs",
+  "type": "module",
   "scripts": {
     "dev": "concurrently 'npm run dev:build' 'npm run dev:start'",
-    "dev:build": "cross-env NODE_ENV=development webpack",
+    "dev:build": "cross-env NODE_ENV=development NODE_OPTIONS='--import=tsx' webpack",
     "dev:start": "cross-env NODE_ENV=development electronmon .",
     "lint": "cross-env NODE_ENV=development eslint .",
-    "build": "cross-env NODE_ENV=production webpack",
+    "build": "cross-env NODE_ENV=production NODE_OPTIONS='--import=tsx' webpack",
     "package": "npm run build && npm run package:bundle && npm run package:installer",
-    "package:bundle": "config/package/bundle.ts",
-    "package:installer": "config/package/installer.ts"
+    "package:bundle": "cross-env NODE_OPTIONS='--import=tsx' config/package/bundle.ts",
+    "package:installer": "cross-env NODE_OPTIONS='--import=tsx' config/package/installer.ts"
   },
   "repository": "https://github.com/danikaze/electron-tsx",
   "author": "danikaze <danikaze@gmail.com>",
@@ -61,11 +62,15 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
+    "tsx": "^4.17.0",
     "typescript": "^5.5.4",
     "webpack": "^5.93.0",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4",
     "webpack-merge": "^6.0.1"
+  },
+  "dependencies": {
+    "nanoid": "^5.0.7"
   }
 }

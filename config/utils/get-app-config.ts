@@ -1,6 +1,6 @@
-import { AppConfig } from '../types.d';
-import packageJson from '../../package.json';
 import appConfigModule from '../../app.config';
+import packageJson from '../../package.json';
+import type { AppConfig } from '../types';
 
 type AppConfigModuleExport = AppConfig | (() => AppConfig) | (() => Promise<AppConfig>);
 

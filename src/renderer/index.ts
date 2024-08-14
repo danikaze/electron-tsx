@@ -1,3 +1,5 @@
+import { nanoid } from 'nanoid';
+
 // import via aliases (@ points to {PROJECT_ROOT}/src)
 import { prod } from '@/utils/test';
 
@@ -8,7 +10,7 @@ import { prod } from '@/utils/test';
  * `contextIsolation` is turned on. Use the contextBridge API in `preload.js`
  * to expose Node.js functionality from the main process.
  */
-console.log('Message from renderer.js');
+console.log(`Message from renderer.js ${nanoid()}`);
 ((window as any).app as any).ready('renderer');
 
 prod(3, 5);

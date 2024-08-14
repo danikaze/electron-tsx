@@ -35,7 +35,12 @@ export async function getWebpackConfig(
     watch: !isProduction,
     devtool: isProduction ? false : 'source-map',
     output: {
-      path: baseOutPath
+      path: baseOutPath,
+      module: type !== 'preload',
+      chunkFormat: type !== 'preload' ? 'module': undefined,
+    },
+    experiments: {
+      outputModule: type !== 'preload',
     },
     stats: {
       assetsSort: 'name',
@@ -66,7 +71,7 @@ export async function getWebpackConfig(
       new CleanPlugin(),
       new DefinePlugin(
         jsonify({
-          'process.env.NODE_ENV':isProduction ? 'production' : 'development',
+          'process.env.NODE_ENV': isProduction ? 'production' : 'development',
           'process.env.PACKAGE_VERSION': version,
           'process.env.BUILD_DATE': getDateString(),
           ENTRY_POINT_PRELOAD: join(webpackOutPath, 'preload', 'index.js'),
@@ -82,12 +87,19 @@ export async function getWebpackConfig(
           test: /\.(ts|tsx)$/i,
           loader: 'ts-loader',
           exclude: ['/node_modules/'],
+          options: {
+            transpileOnly: true,
+          },
         },
       ],
     },
     resolve: {
       modules: [join(baseOutPath, 'src'), 'node_modules'],
-      extensions: ['.tsx', '.ts', '.jsx', '.js', '...'],
+      extensions: [
+        '.tsx', '.ts', '.mts', '.cts',
+        '.jsx', '.js', '.mjs', '.cjs',
+        '...'
+      ],
       plugins: [new TsconfigPathsPlugin()],
     },
   };
