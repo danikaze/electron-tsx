@@ -29,10 +29,14 @@ Given that most Electron.js boilerplates are usually outdated or don't work prop
   - ☑ Typed IPC
 - ☑ Webpack with pre-defined loaders
 - ☑ React
-  - ☐ React dev tools
+  - ☑ React Dev Tools
   - ☐ Hot Module Reloading
 - ☐ Redux/Zustand (TBD)
   - ☐ Redux dev tools
 - ☐ i18n
 - ☐ User stored preferences
 - ☐ Restore window positions
+
+Others:
+
+- [electron-debug](https://github.com/sindresorhus/electron-debug)

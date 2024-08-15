@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid';
 
 import type { TypedBrowserWindow } from 'types/electron-typed-ipc.d.ts';
 
+import { enableDebugTools } from './enable-debug-tools';
 import { ipcMain } from '@/ipc';
 import { IpcEvents } from '@/ipc/events';
 import { prod } from '@/utils/test';
@@ -23,9 +24,6 @@ function createWindow() {
   mainWindow.loadFile(ENTRY_POINT_HTML);
 
   console.log(`Message from main.js ${nanoid()}`);
-
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
 
   ipcMain.handle('ready', (ev, what) => {
     console.log(`Ready via IPC (${what})`);
@@ -48,6 +46,7 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+  enableDebugTools()
   createWindow();
 
   app.on('activate', function () {

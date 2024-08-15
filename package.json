@@ -45,6 +45,8 @@
   "devDependencies": {
     "@alex_neo/jest-expect-message": "^1.0.5",
     "@electron/packager": "^18.3.3",
+    "@types/electron-debug": "^2.1.0",
+    "@types/electron-devtools-installer": "^2.2.5",
     "@types/jest": "^29.5.12",
     "@types/jest-expect-message": "^1.1.0",
     "@types/node": "^22.1.0",
@@ -86,6 +88,8 @@
     "webpack-merge": "^6.0.1"
   },
   "dependencies": {
+    "electron-debug": "^4.0.1",
+    "electron-devtools-installer": "^3.2.0",
     "nanoid": "^5.0.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
