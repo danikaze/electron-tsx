@@ -1,9 +1,10 @@
 // Modules to control application life and create native browser window
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, shell } from 'electron';
 import { nanoid } from 'nanoid';
 
 import type { TypedBrowserWindow } from 'types/electron-typed-ipc.d.ts';
 
+import { enableDebugTools } from './enable-debug-tools';
 import { ipcMain } from '@/ipc';
 import { IpcEvents } from '@/ipc/events';
 import { prod } from '@/utils/test';
@@ -24,15 +25,16 @@ function createWindow() {
 
   console.log(`Message from main.js ${nanoid()}`);
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
-
   ipcMain.handle('ready', (ev, what) => {
     console.log(`Ready via IPC (${what})`);
     const reply = 'MSG via IPC';
     console.log(`  - sending: ${reply}`);
     ev.sender.send('msg', reply);
   });
+
+  ipcMain.handle('openExternal', (ev, url) => {
+    shell.openExternal(url);
+  })
 
   // if not removed, on Mac gives an error while trying to register another
   // handler to the same channel, when opening the window again as it's not
@@ -44,6 +46,7 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+  enableDebugTools()
   createWindow();
 
   app.on('activate', function () {
