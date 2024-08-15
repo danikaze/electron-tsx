@@ -1,0 +1,99 @@
+@font-face {
+  font-family: 'font-woff';
+  src: url('@/assets/test/fonts/font-woff.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'font-woff2';
+  src: url('@/assets/test/fonts/font-woff2.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'font-eot';
+  src: url('@/assets/test/fonts/font-eot.eot') format('embedded-opentype');
+}
+
+@font-face {
+  font-family: 'font-ttf';
+  src: url('@/assets/test/fonts/font-ttf.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'font-otf';
+  src: url('@/assets/test/fonts/font-otf.otf') format('opentype');
+}
+
+.root {
+  font-family: sans-serif;
+  max-width: 600px;
+  margin: auto;
+
+  h1 {
+    color: #7931d5;
+    display: flex;
+    margin: 32px 24px;
+    padding-left: 24px;
+    font-size: xxx-large;
+    font-weight: bold;
+
+    img {
+      width: 1em;
+      height: 1em;
+      margin-right: 16px;
+    }
+  }
+
+  h3 {
+    font-size: larger;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+
+  b {
+    font-weight: bold;
+  }
+
+  code {
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  section {
+    margin: 32px;
+    padding: 16px;
+    background: rgb(255, 246, 255);
+    border-radius: 16px;
+
+    img {
+      width: 150px;
+      height: 150px;
+      margin: 24px;
+    }
+  }
+}
+
+.flex {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
+.woff {
+  font-family: 'font-woff';
+}
+
+.woff2 {
+  font-family: 'font-woff2';
+}
+
+.eot {
+  font-family: 'font-eot';
+}
+
+.ttf {
+  font-family: 'font-ttf';
+}
+
+.otf {
+  font-family: 'font-otf';
+}
