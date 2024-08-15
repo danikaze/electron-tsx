@@ -27,8 +27,8 @@ Given that most Electron.js boilerplates are usually outdated or don't work prop
 - ☑ TypeScript
   - ☑ Working paths & aliases
   - ☑ Typed IPC
-- ☐ Webpack with pre-defined loaders
-- ☐ React
+- ☑ Webpack with pre-defined loaders
+- ☑ React
   - ☐ React dev tools
   - ☐ Hot Module Reloading
 - ☐ Redux/Zustand (TBD)

@@ -1,5 +1,5 @@
 import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import { dirname, join, resolve } from 'path';
 
 export function getProjectPath(...path: string[]): string {
   /*
@@ -7,5 +7,5 @@ export function getProjectPath(...path: string[]): string {
    */
   const filename = fileURLToPath(import.meta.url);
 
-  return join(dirname(filename),'..','..', ...path);
+  return resolve(join(dirname(filename),'..','..', ...path));
 }
