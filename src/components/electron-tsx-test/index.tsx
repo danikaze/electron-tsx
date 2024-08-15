@@ -23,7 +23,7 @@ export const ElectronTsxTestApp: FC = () => {
     <div className={styles.root}>
       <h1>
         <img src={etsxIcon} />
-        Electron TSX
+        Electron TSX2
       </h1>
 
       <section>

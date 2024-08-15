@@ -6,7 +6,11 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently 'npm run dev:build' 'npm run dev:start'",
-    "dev:build": "cross-env NODE_ENV=development NODE_OPTIONS='$NODE_OPTIONS --import=tsx' webpack",
+    "dev2": "concurrently 'npm run dev:main' 'npm run dev:preload' 'npm run dev:renderer' 'npm run dev:start'",
+    "dev:build": "cross-env NODE_ENV=development NODE_OPTIONS='$NODE_OPTIONS --import=tsx' webpack serve",
+    "dev:main": "cross-env NODE_ENV=development NODE_OPTIONS='$NODE_OPTIONS --import=tsx' webpack --config ./config/webpack/webpack.main.config.ts",
+    "dev:preload": "cross-env NODE_ENV=development NODE_OPTIONS='$NODE_OPTIONS --import=tsx' webpack --config ./config/webpack/webpack.preload.config.ts",
+    "dev:renderer": "cross-env NODE_ENV=development NODE_OPTIONS='$NODE_OPTIONS --import=tsx' webpack serve --config ./config/webpack/webpack.renderer.config.ts",
     "dev:start": "cross-env NODE_ENV=development electronmon .",
     "dev:test": "cross-env NODE_OPTIONS='$NODE_OPTIONS --inspect --experimental-vm-modules' jest --watch",
     "test": "cross-env NODE_OPTIONS='$NODE_OPTIONS --experimental-vm-modules' jest",

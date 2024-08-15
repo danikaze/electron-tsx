@@ -1,16 +1,15 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { Configuration, DefinePlugin } from 'webpack';
+import 'webpack-dev-server'; // needed for Configuration types
 
 import { getCssLocalIdent } from '../utils/get-css-local-ident';
 import { getProjectPath } from '../utils/get-project-path';
 import { getWebpackConfig } from './get-webpack-config';
 
-const DEV_SERVER_PORT = parseInt(process.env.PORT || '9000');
-
-export const rendererConfig = getWebpackConfig('renderer', ({ isProduction }) => {
+export const rendererConfig = getWebpackConfig('renderer', ({ isProduction, devServerPort }) => {
   const config: Configuration = {
-    target: 'electron-renderer',
+    target: ['electron-renderer', 'web'],
     entry: {
       index: getProjectPath('src', 'renderer', 'index')
     },
@@ -18,11 +17,13 @@ export const rendererConfig = getWebpackConfig('renderer', ({ isProduction }) =>
       publicPath: isProduction ? './' : undefined,
       scriptType: 'text/javascript'
     },
-    devServer: !isProduction && {
+    devServer: !isProduction ? {
       host: '0.0.0.0',
       compress: true,
-      port: DEV_SERVER_PORT,
-    },
+      hot: true,
+      port: devServerPort,
+      headers: { 'Access-Control-Allow-Origin': '*' },
+    } : undefined,
     plugins: [
       new DefinePlugin({
         'process.type': JSON.stringify('renderer'),
@@ -85,3 +86,5 @@ export const rendererConfig = getWebpackConfig('renderer', ({ isProduction }) =>
 
   return config;
 });
+
+export default rendererConfig;

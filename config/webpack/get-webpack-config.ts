@@ -15,6 +15,7 @@ export type WebpackTarget = 'main' | 'preload' | 'renderer';
 export type GetWebpackConfigCallbackData = {
   isProduction: boolean;
   baseOutPath: string;
+  devServerPort: number;
 }
 
 /**
@@ -29,10 +30,14 @@ export async function getWebpackConfig(
 ) {
   const baseOutPath = join(webpackOutPath, type);
   const isProduction = process.env.NODE_ENV === 'production';
+  const devServerPort = parseInt(process.env.PORT || '9000');
+
+  console.log('(wp)ENTRY_POINT_HTML:', isProduction
+    ? join(webpackOutPath, 'renderer', 'index.html')
+    : `http://localhost:${devServerPort}`)
 
   const baseConfig: Configuration = {
     mode: isProduction ? 'production' : 'development',
-    watch: !isProduction,
     devtool: isProduction ? false : 'source-map',
     output: {
       path: baseOutPath,
@@ -49,22 +54,20 @@ export async function getWebpackConfig(
     },
     optimization: isProduction
       ? {
-          minimizer: isProduction
-            ? [
-                new TerserPlugin({
-                  parallel: true,
-                  extractComments: false,
-                  terserOptions: {
-                    // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
-                    ecma: undefined,
-                    parse: {},
-                    compress: {},
-                    mangle: isProduction,
-                    module: false,
-                  },
-                }),
-              ]
-            : undefined,
+          minimizer: [
+            new TerserPlugin({
+              parallel: true,
+              extractComments: false,
+              terserOptions: {
+                // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
+                ecma: undefined,
+                parse: {},
+                compress: {},
+                mangle: true,
+                module: false,
+              },
+            }),
+          ],
         }
       : {},
     plugins: [
@@ -75,7 +78,9 @@ export async function getWebpackConfig(
           'process.env.PACKAGE_VERSION': version,
           'process.env.BUILD_DATE': getDateString(),
           ENTRY_POINT_PRELOAD: join(webpackOutPath, 'preload', 'index.js'),
-          ENTRY_POINT_HTML: join(webpackOutPath, 'renderer', 'index.html'),
+          ENTRY_POINT_HTML: isProduction
+            ? join(webpackOutPath, 'renderer', 'index.html')
+            : `http://localhost:${devServerPort}`,
           APP_ICON_PNG_PATH: await getIconPath('linux'),
         }),
       ),
@@ -107,6 +112,7 @@ export async function getWebpackConfig(
   const config = typeof configBuilder === 'function' ? configBuilder({
     isProduction,
     baseOutPath,
+    devServerPort,
   }) : configBuilder;
 
   return merge(baseConfig, config);

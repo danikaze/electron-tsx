@@ -6,3 +6,4 @@
 | -------------------- | --------- | ------------- |
 | `DEBUG`              | `boolean` | Forces debug tools to be enabled. By default it's only enabled on development mode |
 | `UPGRADE_EXTENSIONS` | `boolean` | Force re-downloading chrome extensions to install |
+| `PORT`               | `number`  | Port to use for `webpack-dev-server` on development mode |

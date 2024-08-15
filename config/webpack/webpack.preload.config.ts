@@ -1,16 +1,18 @@
 import { Configuration } from 'webpack';
-import 'webpack-dev-server'; // needed for Configuration types
 
 import { getProjectPath } from '../utils/get-project-path';
 import { getWebpackConfig } from './get-webpack-config';
 
-export const preloadConfig = getWebpackConfig('preload', () => {
+const preloadConfig = getWebpackConfig('preload', ({ isProduction }) => {
   const config: Configuration = {
+    watch: !isProduction,
     target: 'electron-renderer',
     entry: {
-      index: getProjectPath('src', 'preload', 'index')
+      index: getProjectPath('src', 'preload', 'index'),
     },
   };
 
   return config;
 });
+
+export default preloadConfig;

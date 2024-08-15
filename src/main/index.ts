@@ -21,7 +21,9 @@ function createWindow() {
   }) as TypedBrowserWindow<IpcEvents>;
 
   // and load the index.html of the app.
-  mainWindow.loadFile(ENTRY_POINT_HTML);
+  console.log({ENTRY_POINT_HTML: ENTRY_POINT_HTML});
+  mainWindow.loadURL(ENTRY_POINT_HTML);
+
 
   console.log(`Message from main.js ${nanoid()}`);
 
