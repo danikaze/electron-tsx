@@ -20,7 +20,8 @@ Given that most Electron.js boilerplates are usually outdated or don't work prop
 - ☑ Application icons
 - ☐ Git Hooks
 - ☑ Unit Testing
-- ☐ Code Linting
+- ☑ Code Linting
+  - ☑ Prettier
 - ☑ ESM support
 - ☑ VS Code integration
 - ☑ Main process restarted when modified

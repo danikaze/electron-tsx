@@ -8,10 +8,11 @@
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "sourceMap": true,
+    "allowJs": true,
     "lib": ["DOM", "ES2023"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
+      "@/*": ["src/*"]
     },
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
