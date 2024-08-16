@@ -11,6 +11,8 @@ import type {
   TypedIpcRenderer,
 } from 'types/electron-typed-ipc.d.ts';
 
+import type { WindowId } from '@/types/app';
+
 import { IpcEvents } from './events';
 import { IpcCommands } from './commands';
 
@@ -28,15 +30,6 @@ export const ipcRenderer = electronIpcRenderer as TypedIpcRenderer<
   IpcEvents,
   IpcCommands
 >;
-
-/**
- * To avoid typos and provide strong typing, each window can be provided with
- * its own ID (usually Electron applications won't have more than one).
- *
- * WindowId is used on the utility methods `registerIpcTarget` and
- * `sendEventToWindow` but canbe used in other parts as needed
- */
-type WindowId = 'main';
 
 const registeredTargets = new Map<WindowId, WebContents>();
 

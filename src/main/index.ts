@@ -2,12 +2,13 @@
 import { app, BrowserWindow, shell } from 'electron';
 import { nanoid } from 'nanoid';
 
-import type { TypedBrowserWindow } from 'types/electron-typed-ipc.d.ts';
+import type { TypedBrowserWindow } from 'types/electron-typed-ipc';
 
-import { enableDebugTools } from './enable-debug-tools';
 import { ipcMain } from '@/ipc';
 import { IpcEvents } from '@/ipc/events';
 import { prod } from '@/utils/test';
+
+import { enableDebugTools } from './utils/enable-debug-tools';
 
 function createWindow() {
   // Create the browser window.
