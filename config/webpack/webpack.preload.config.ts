@@ -8,7 +8,7 @@ export const preloadConfig = getWebpackConfig('preload', () => {
   const config: Configuration = {
     target: 'electron-renderer',
     entry: {
-      index: getProjectPath('src', 'preload', 'index')
+      index: getProjectPath('src', 'preload', 'index'),
     },
   };
 

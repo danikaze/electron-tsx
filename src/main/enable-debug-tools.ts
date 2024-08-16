@@ -1,6 +1,8 @@
 import { app } from 'electron';
 import debug from 'electron-debug';
-import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
+import installExtension, {
+  REACT_DEVELOPER_TOOLS,
+} from 'electron-devtools-installer';
 
 /**
  * Installs the developer tools in Electron.
@@ -14,7 +16,8 @@ import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-insta
  * @returns Promise resolved when done
  */
 export async function enableDebugTools(): Promise<void> {
-  const enabled = process.env.DEBUG !== 'false' &&
+  const enabled =
+    process.env.DEBUG !== 'false' &&
     (process.env.NODE_ENV !== 'production' || process.env.DEBUG === 'true');
   if (!enabled) return;
 
@@ -28,10 +31,10 @@ async function installExtensions(): Promise<void> {
   const extensions = [REACT_DEVELOPER_TOOLS];
   const forceDownload = process.env.UPGRADE_EXTENSIONS === 'true';
 
-  for (const extension of extensions){
+  for (const extension of extensions) {
     try {
       const extName = await installExtension(extension, forceDownload);
-      console.info(`Added extension: ${extName} (${extension.id})`)
+      console.info(`Added extension: ${extName} (${extension.id})`);
     } catch (e) {
       console.warn('Errors happened while installing extensions:\n', e);
     }

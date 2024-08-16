@@ -34,7 +34,7 @@ function createWindow() {
 
   ipcMain.handle('openExternal', (ev, url) => {
     shell.openExternal(url);
-  })
+  });
 
   // if not removed, on Mac gives an error while trying to register another
   // handler to the same channel, when opening the window again as it's not
@@ -46,7 +46,7 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  enableDebugTools()
+  enableDebugTools();
   createWindow();
 
   app.on('activate', function () {

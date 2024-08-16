@@ -9,26 +9,19 @@
       "name": "Dev Electron",
       "request": "launch",
       "runtimeExecutable": "npm",
-      "runtimeArgs": [
-        "run-script",
-        "dev",
-      ],
+      "runtimeArgs": ["run-script", "dev"],
       "env": {
         "NODE_OPTIONS": "--inspect"
       },
       "cwd": "${workspaceFolder}",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"]
     },
     {
       "name": "Attach (to dev:test)",
       "port": 9229,
       "request": "attach",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "type": "node"
-    },
+    }
   ]
 }

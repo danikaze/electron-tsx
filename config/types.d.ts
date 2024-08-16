@@ -177,5 +177,5 @@ export type AppConfig = {
      * - installer
      */
     installerUi?: UIOptions | boolean;
-  }
-}
+  };
+};

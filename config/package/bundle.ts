@@ -1,6 +1,10 @@
 #!/usr/bin/env ts-node
 
-import packager, { OfficialArch, OfficialPlatform, Options } from '@electron/packager';
+import packager, {
+  OfficialArch,
+  OfficialPlatform,
+  Options,
+} from '@electron/packager';
 import { dirname, relative } from 'path';
 
 import packageJson from '../../package.json';
@@ -26,7 +30,8 @@ async function getPackagerOptions(appConfig: AppConfig): Promise<Options> {
     appVersion: appConfig.appVersion ?? packageJson.version,
     arch: appConfig.arch ?? 'all',
     asar: appConfig.asar ?? true,
-    buildVersion: appConfig.buildVersion ?? appConfig.appVersion ?? packageJson.version,
+    buildVersion:
+      appConfig.buildVersion ?? appConfig.appVersion ?? packageJson.version,
     dir: getProjectPath('.'),
     executableName: appConfig.executableName ?? packageJson.name,
     ignore: getIgnoreFn(appConfig),
@@ -35,12 +40,15 @@ async function getPackagerOptions(appConfig: AppConfig): Promise<Options> {
     overwrite: appConfig.overwrite,
     platform: appConfig.platform ?? getDefaultPlatforms(),
     win32metadata: {
+      /* eslint-disable @typescript-eslint/naming-convention */
       CompanyName: appConfig.win?.manufacturer ?? getAuthorName(),
-      FileDescription: appConfig.win?.shortName ?? appConfig.name ?? packageJson.name,
+      FileDescription:
+        appConfig.win?.shortName ?? appConfig.name ?? packageJson.name,
       OriginalFilename: appConfig.executableName ?? packageJson.name,
-      InternalName: appConfig.executableName ?? packageJson.name
+      InternalName: appConfig.executableName ?? packageJson.name,
+      /* eslint-enable @typescript-eslint/naming-convention */
     },
-    icon: appConfig.iconPath
+    icon: appConfig.iconPath,
   };
 
   return options;
@@ -53,13 +61,14 @@ function getDefaultAppCopyright(): string {
 }
 
 function getIgnoreFn(config: AppConfig): (path: string) => boolean {
-  const webpackBuildPath = '/' + relative(getProjectPath(), webpackOutPath).replace(/\\/g, '/');
+  const webpackBuildPath =
+    '/' + relative(getProjectPath(), webpackOutPath).replace(/\\/g, '/');
 
-  const isBuildParent = (path: string, wp = webpackBuildPath): boolean =>  {
+  const isBuildParent = (path: string, wp = webpackBuildPath): boolean => {
     if (wp === '/') return false;
     if (wp === path) return true;
     return isBuildParent(path, dirname(wp));
-  }
+  };
 
   return (path: string): boolean => {
     if (!path) return false;
@@ -79,10 +88,12 @@ function getDefaultPlatforms(): OfficialPlatform[] {
   if (process.platform === 'darwin') return ['darwin', 'mas'];
   if (process.platform === 'linux') return ['linux'];
 
-  throw new Error([
-    `Unknown platform "${process.platform}". `,
-    'Please set it manually in config/app.config.ts'
-  ].join(''));
+  throw new Error(
+    [
+      `Unknown platform "${process.platform}". `,
+      'Please set it manually in config/app.config.ts',
+    ].join('')
+  );
 }
 
 function getAllArchs(platform: OfficialPlatform): OfficialArch[] {
@@ -112,7 +123,7 @@ async function bundleElectronApps(options: Options) {
       ...options,
       platform,
       arch,
-      icon: await getIconPath(platform)
+      icon: await getIconPath(platform),
     });
   });
 
@@ -124,24 +135,27 @@ async function bundleElectronApps(options: Options) {
 /**
  * Get all the combinations of Platforms x Archs from the given options
  */
-function getPlatformArchCombination(options: Options): [
-  platform: OfficialPlatform,
-  arch: OfficialArch
-][] {
+function getPlatformArchCombination(
+  options: Options
+): [platform: OfficialPlatform, arch: OfficialArch][] {
   const res: [platform: OfficialPlatform, arch: OfficialArch][] = [];
 
-  const platforms = (options.platform === 'all'
-    ? getDefaultPlatforms()
-    : Array.isArray(options.platform)
-      ? options.platform
-      : [options.platform]) as OfficialPlatform[];
+  const platforms = (
+    options.platform === 'all'
+      ? getDefaultPlatforms()
+      : Array.isArray(options.platform)
+        ? options.platform
+        : [options.platform]
+  ) as OfficialPlatform[];
 
   for (const platform of platforms) {
-    const archs = (options.arch === 'all'
-      ? getAllArchs(platform)
-      : Array.isArray(options.arch)
-        ? options.arch
-        : [options.arch]) as OfficialArch[]
+    const archs = (
+      options.arch === 'all'
+        ? getAllArchs(platform)
+        : Array.isArray(options.arch)
+          ? options.arch
+          : [options.arch]
+    ) as OfficialArch[];
 
     for (const arch of archs) {
       res.push([platform, arch]);

@@ -7,5 +7,5 @@ export function getProjectPath(...path: string[]): string {
    */
   const filename = fileURLToPath(import.meta.url);
 
-  return resolve(join(dirname(filename),'..','..', ...path));
+  return resolve(join(dirname(filename), '..', '..', ...path));
 }

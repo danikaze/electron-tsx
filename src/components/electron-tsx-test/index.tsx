@@ -17,7 +17,8 @@ import etsxIcon from 'config/icons/icon-512.png';
 
 export const ElectronTsxTestApp: FC = () => {
   const { versions } = window;
-  const openGithub = () => window.app.openExternal('https://github.com/danikaze/electron-tsx');
+  const openGithub = () =>
+    window.app.openExternal('https://github.com/danikaze/electron-tsx');
 
   return (
     <div className={styles.root}>
@@ -28,18 +29,28 @@ export const ElectronTsxTestApp: FC = () => {
 
       <section>
         <p>
-          <b>Electron TSX</b> is a boilerplate repository to start Electron applications
-          using React + TypeScript.
+          <b>Electron TSX</b> is a boilerplate repository to start Electron
+          applications using React + TypeScript.
         </p>
-        <p><a href="#" onClick={openGithub}>Open in Github</a></p>
+        <p>
+          <a href="#" onClick={openGithub}>
+            Open in Github
+          </a>
+        </p>
       </section>
 
       <section>
         <h3>Versions</h3>
         <ul>
-          <li><b>Node.js</b>: <code>{versions.node}</code></li>
-          <li><b>Chromium</b>: <code>{versions.chrome}</code></li>
-          <li><b>Electron</b>: <code>{versions.electron}</code></li>
+          <li>
+            <b>Node.js</b>: <code>{versions.node}</code>
+          </li>
+          <li>
+            <b>Chromium</b>: <code>{versions.chrome}</code>
+          </li>
+          <li>
+            <b>Electron</b>: <code>{versions.electron}</code>
+          </li>
         </ul>
       </section>
 
@@ -57,20 +68,20 @@ export const ElectronTsxTestApp: FC = () => {
       <section>
         <h3>Supported image formats</h3>
         <div className={styles.flex}>
-        <p>
-          <img src={svg} width={50} />
-        </p>
-        <p>
-          <img src={png} />
-        </p>
-        <p>
-          <img src={gif} />
-        </p>
-        <p>
-          <img src={jpg} />
-        </p>
+          <p>
+            <img src={svg} />
+          </p>
+          <p>
+            <img src={png} />
+          </p>
+          <p>
+            <img src={gif} />
+          </p>
+          <p>
+            <img src={jpg} />
+          </p>
         </div>
       </section>
     </div>
   );
-}
+};

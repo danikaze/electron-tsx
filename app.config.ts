@@ -9,6 +9,6 @@ const appConfig: AppConfig = {
   executableName: 'etsx',
   overwrite: true,
   appBundleId: 'xyz',
-}
+};
 
 export default appConfig;

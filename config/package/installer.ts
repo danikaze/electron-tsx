@@ -1,7 +1,9 @@
 #!/usr/bin/env ts-node
 
 if (process.platform !== 'win32') {
-  console.error('Creation of installers is only supported on Windows currently');
+  console.error(
+    'Creation of installers is only supported on Windows currently'
+  );
   process.exit(1);
 }
 
@@ -19,7 +21,8 @@ import { getIconPath } from '../utils/icons';
 import { installerOutPath, packageOutPath } from '../utils/paths';
 
 type WindowsArch = Exclude<MSICreatorOptions['arch'], undefined>;
-type MSICreatorCreateResult = ReturnType<MSICreator['create']> extends Promise<infer T> ? T : never;
+type MSICreatorCreateResult =
+  ReturnType<MSICreator['create']> extends Promise<infer T> ? T : never;
 
 run();
 
@@ -37,17 +40,25 @@ async function createInstallers(appConfig?: AppConfig) {
   const startTime = Date.now();
   console.log('Creating installers for:');
   const bundledFolders = readdirSync(packageOutPath)
-    .map(folder => join(packageOutPath, folder))
-    .filter(folder => statSync(folder).isDirectory())
-    .filter(folder => {
-      try { getArchFromFolder(folder); return true; }
-      catch { return false }
+    .map((folder) => join(packageOutPath, folder))
+    .filter((folder) => statSync(folder).isDirectory())
+    .filter((folder) => {
+      try {
+        getArchFromFolder(folder);
+        return true;
+      } catch {
+        return false;
+      }
     });
-  bundledFolders.forEach((folder, i) => console.log([
-    `  ${i+1}.`,
-    `${basename(folder)} => `,
-    getInstallerFolderName(folder)
-  ].join('')));
+  bundledFolders.forEach((folder, i) =>
+    console.log(
+      [
+        `  ${i + 1}.`,
+        `${basename(folder)} => `,
+        getInstallerFolderName(folder),
+      ].join('')
+    )
+  );
 
   const stats = { ok: 0, skip: 0, error: 0 };
   for (let i = 0; i < bundledFolders.length; i++) {
@@ -59,19 +70,19 @@ async function createInstallers(appConfig?: AppConfig) {
       if (appConfig.overwrite) {
         rimrafSync(outDir);
       } else {
-        console.log(`- ${dirname} already exists. Skipping (or set overwrite=true)`);
+        console.log(
+          `- ${dirname} already exists. Skipping (or set overwrite=true)`
+        );
         stats.skip++;
         continue;
       }
     }
 
-    console.log(`\n- Creating installer ${i+1}/${bundledFolders.length} (${dirname})...`);
+    console.log(
+      `\n- Creating installer ${i + 1}/${bundledFolders.length} (${dirname})...`
+    );
     try {
-      await createInstaller(
-        appConfig,
-        outDir,
-        folder
-      );
+      await createInstaller(appConfig, outDir, folder);
       console.log('  - Ok!');
       stats.ok++;
     } catch (e) {
@@ -81,13 +92,15 @@ async function createInstallers(appConfig?: AppConfig) {
   }
 
   const ellapsed = Date.now() - startTime;
-  console.log([
-    `\nAll Done! (Total: ${bundledFolders.length}`,
-    `OK: ${stats.ok}`,
-    `Skipped: ${stats.skip}`,
-    `Errors: ${stats.error})`,
-    `Ellapsed: ${ellapsed} ms`,
-  ].join(' / '));
+  console.log(
+    [
+      `\nAll Done! (Total: ${bundledFolders.length}`,
+      `OK: ${stats.ok}`,
+      `Skipped: ${stats.skip}`,
+      `Errors: ${stats.error})`,
+      `Ellapsed: ${ellapsed} ms`,
+    ].join(' / ')
+  );
 }
 
 /**
@@ -97,7 +110,7 @@ async function createInstallers(appConfig?: AppConfig) {
 function getInstallerFolderName(bundledFolderPath: string): string {
   const bundledDirName = basename(bundledFolderPath);
   const i = bundledDirName.lastIndexOf('-');
-  const arch = getArchFromFolder(bundledDirName)
+  const arch = getArchFromFolder(bundledDirName);
   return `${bundledDirName.substring(0, i)}-${arch}`;
 }
 
@@ -107,7 +120,7 @@ function getInstallerFolderName(bundledFolderPath: string): string {
 async function createInstaller(
   appConfig: AppConfig,
   outFolder: string,
-  folder: string,
+  folder: string
 ): Promise<void> {
   mkdirpSync(outFolder);
 
@@ -125,9 +138,9 @@ async function createInstaller(
 async function getMSICreatorOptions(
   config: AppConfig,
   outFolder: string,
-  folder: string,
+  folder: string
 ): Promise<MSICreatorOptions> {
-  const arch = getArchFromFolder(folder)
+  const arch = getArchFromFolder(folder);
   return {
     arch,
     appDirectory: folder,
@@ -141,7 +154,7 @@ async function getMSICreatorOptions(
     shortcutName: config.win?.shortcutName,
     version: config.appVersion ?? packageJson.version,
     ui: config?.win?.installerUi,
-    icon: await getIconPath('win32')
+    icon: await getIconPath('win32'),
   };
 }
 
@@ -156,7 +169,9 @@ function getArchFromFolder(folder: string): WindowsArch {
   if (folder.endsWith('win32-ia32')) return 'x86';
   if (folder.endsWith('win32-x64')) return 'x64';
 
-  throw new Error(`Architecture not supported for the folder ${basename(folder)}`);
+  throw new Error(
+    `Architecture not supported for the folder ${basename(folder)}`
+  );
 }
 
 /**
