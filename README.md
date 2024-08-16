@@ -18,7 +18,7 @@ Given that most Electron.js boilerplates are usually outdated or don't work prop
 - ☐ Signed files
 - ☑ ASAR packing
 - ☑ Application icons
-- ☐ Git Hooks
+- ☑ Git Hooks
 - ☑ Unit Testing
 - ☑ Code Linting
   - ☑ Prettier
