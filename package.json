@@ -7,7 +7,7 @@
   "repository": "https://github.com/danikaze/electron-tsx",
   "author": "danikaze <danikaze@gmail.com>",
   "scripts": {
-    "dev": "concurrently 'npm run dev:build' 'npm run dev:start'",
+    "dev": "concurrently --kill-others -c 'auto' --names 'WP,EL' 'npm run dev:build' 'npm run dev:start'",
     "dev:build": "cross-env NODE_ENV=development NODE_OPTIONS='$NODE_OPTIONS --import=tsx' webpack",
     "dev:start": "cross-env NODE_ENV=development electronmon .",
     "dev:test": "cross-env NODE_OPTIONS='$NODE_OPTIONS --inspect --experimental-vm-modules' jest --watch",
