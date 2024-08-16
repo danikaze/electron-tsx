@@ -6,7 +6,10 @@ import {
   // eslint-disable-next-line no-restricted-imports
   ipcRenderer as electronIpcRenderer,
 } from 'electron';
-import type { TypedIpcMain, TypedIpcRenderer } from 'types/electron-typed-ipc.d.ts';
+import type {
+  TypedIpcMain,
+  TypedIpcRenderer,
+} from 'types/electron-typed-ipc.d.ts';
 
 import { IpcEvents } from './events';
 import { IpcCommands } from './commands';

@@ -8,4 +8,4 @@
 export type IpcCommands = {
   ready: (what: string) => void;
   openExternal: (url: string) => void;
-}
+};

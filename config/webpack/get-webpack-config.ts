@@ -15,7 +15,7 @@ export type WebpackTarget = 'main' | 'preload' | 'renderer';
 export type GetWebpackConfigCallbackData = {
   isProduction: boolean;
   baseOutPath: string;
-}
+};
 
 /**
  * @param type Type of build to create. Will provide base values to be extended by `configBuilder`
@@ -24,8 +24,9 @@ export type GetWebpackConfigCallbackData = {
  */
 export async function getWebpackConfig(
   type: WebpackTarget,
-  configBuilder: Omit<Configuration, 'path'>
-  | ((data: GetWebpackConfigCallbackData) => Omit<Configuration, 'path'>)
+  configBuilder:
+    | Omit<Configuration, 'path'>
+    | ((data: GetWebpackConfigCallbackData) => Omit<Configuration, 'path'>)
 ) {
   const baseOutPath = join(webpackOutPath, type);
   const isProduction = process.env.NODE_ENV === 'production';
@@ -37,7 +38,7 @@ export async function getWebpackConfig(
     output: {
       path: baseOutPath,
       module: type !== 'preload',
-      chunkFormat: type !== 'preload' ? 'module': undefined,
+      chunkFormat: type !== 'preload' ? 'module' : undefined,
     },
     experiments: {
       outputModule: type !== 'preload',
@@ -74,10 +75,12 @@ export async function getWebpackConfig(
           'process.env.NODE_ENV': isProduction ? 'production' : 'development',
           'process.env.PACKAGE_VERSION': version,
           'process.env.BUILD_DATE': getDateString(),
+          /* eslint-disable @typescript-eslint/naming-convention */
           ENTRY_POINT_PRELOAD: join(webpackOutPath, 'preload', 'index.js'),
           ENTRY_POINT_HTML: join(webpackOutPath, 'renderer', 'index.html'),
           APP_ICON_PNG_PATH: await getIconPath('linux'),
-        }),
+          /* eslint-enable @typescript-eslint/naming-convention */
+        })
       ),
     ],
     module: {
@@ -96,18 +99,27 @@ export async function getWebpackConfig(
     resolve: {
       modules: [join(baseOutPath, 'src'), 'node_modules'],
       extensions: [
-        '.tsx', '.ts', '.mts', '.cts',
-        '.jsx', '.js', '.mjs', '.cjs',
-        '...'
+        '.tsx',
+        '.ts',
+        '.mts',
+        '.cts',
+        '.jsx',
+        '.js',
+        '.mjs',
+        '.cjs',
+        '...',
       ],
       plugins: [new TsconfigPathsPlugin()],
     },
   };
 
-  const config = typeof configBuilder === 'function' ? configBuilder({
-    isProduction,
-    baseOutPath,
-  }) : configBuilder;
+  const config =
+    typeof configBuilder === 'function'
+      ? configBuilder({
+          isProduction,
+          baseOutPath,
+        })
+      : configBuilder;
 
   return merge(baseConfig, config);
 }

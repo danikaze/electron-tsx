@@ -8,4 +8,4 @@
  */
 export type IpcEvents = {
   msg: (data: string) => void;
-}
+};

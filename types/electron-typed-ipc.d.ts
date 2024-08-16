@@ -5,7 +5,7 @@
  * This provides better nested typing (i.e. `sender` inside events, etc.)
  * and also avoid problems installing due to
  * https://github.com/deiucanta/electron-typed-ipc/issues/19
-*/
+ */
 import { EventEmitter } from 'stream';
 import type {
   BrowserWindow,
@@ -22,38 +22,42 @@ import { OptionalPromise } from './global';
  */
 export type TypedIpcMain<
   IpcEvents extends InputMap,
-  IpcCommands extends InputMap
-> = TypedIpcMainMethods<IpcEvents, IpcCommands>
-  & EventEmitter<InputMapToEventMap<IpcEvents>>;
+  IpcCommands extends InputMap,
+> = TypedIpcMainMethods<IpcEvents, IpcCommands> &
+  EventEmitter<InputMapToEventMap<IpcEvents>>;
 
 export type TypedIpcRenderer<
   IpcEvents extends InputMap,
-  IpcCommands extends InputMap
-> = TypedIpcRendererMethods<IpcEvents, IpcCommands>
-  & EventEmitter<InputMapToEventMap<IpcEvents>>;
+  IpcCommands extends InputMap,
+> = TypedIpcRendererMethods<IpcEvents, IpcCommands> &
+  EventEmitter<InputMapToEventMap<IpcEvents>>;
 
 /*
  * Events
  */
-export type TypedIpcMainEvent<IpcEvents extends InputMap> =
-  Omit<IpcMainEvent, 'sender' | 'reply'> & {
-    sender: TypedWebContents<IpcEvents>;
-    reply: <K extends keyof IpcEvents>(
-      channel: K,
-      ...args: Parameters<IpcEvents[K]>
-    ) => void;
-  };
+export type TypedIpcMainEvent<IpcEvents extends InputMap> = Omit<
+  IpcMainEvent,
+  'sender' | 'reply'
+> & {
+  sender: TypedWebContents<IpcEvents>;
+  reply: <K extends keyof IpcEvents>(
+    channel: K,
+    ...args: Parameters<IpcEvents[K]>
+  ) => void;
+};
 
-export type TypedIpcMainInvokeEvent<IpcEvents extends InputMap> =
-  Omit<IpcMainInvokeEvent, 'sender'> & {
-    sender: TypedWebContents<IpcEvents>
-  };
+export type TypedIpcMainInvokeEvent<IpcEvents extends InputMap> = Omit<
+  IpcMainInvokeEvent,
+  'sender'
+> & {
+  sender: TypedWebContents<IpcEvents>;
+};
 
 export type TypedIpcRendererEvent<
   IpcEvents extends InputMap,
-  IpcCommands extends InputMap
+  IpcCommands extends InputMap,
 > = Omit<IpcRendererEvent, 'sender'> & {
-  sender: TypedIpcRenderer<IpcEvents, IpcCommands>
+  sender: TypedIpcRenderer<IpcEvents, IpcCommands>;
 };
 
 /*
@@ -61,41 +65,38 @@ export type TypedIpcRendererEvent<
  */
 export type TypedIpcMainEventListener<
   IpcEvents extends InputMap,
-  K extends keyof IpcEvents
-> = (
-  event: IpcMainEvent,
-  ...args: Parameters<IpcEvents[K]>
-) => void
+  K extends keyof IpcEvents,
+> = (event: IpcMainEvent, ...args: Parameters<IpcEvents[K]>) => void;
 
 export type TypedIpcMainInvokeEventListener<
   IpcCommands extends InputMap,
-  K extends keyof IpcCommands
+  K extends keyof IpcCommands,
 > = (
   event: IpcMainInvokeEvent,
   ...args: Parameters<IpcCommands[K]>
-) => OptionalPromise<ReturnType<IpcCommands[K]>>
+) => OptionalPromise<ReturnType<IpcCommands[K]>>;
 
 export type TypedIpcRendererEventListener<
   IpcEvents extends InputMap,
   IpcCommands extends InputMap,
-  K extends keyof IpcEvents & string
+  K extends keyof IpcEvents & string,
 > = (
   event: TypedIpcRendererEvent<IpcEvents, IpcCommands>,
   ...args: Parameters<IpcEvents[K]>
-) => void
+) => void;
 
 /*
  * BrowserWindow / WebContents
  */
 export interface TypedBrowserWindow<IpcEvents extends InputMap>
   extends BrowserWindow {
-    /**
-     * A `WebContents` object this window owns. All web page related events and
-     * operations will be done via it.
-     *
-     * See the `webContents` documentation for its methods and events.
-     */
-    readonly webContents: TypedWebContents<IpcEvents>
+  /**
+   * A `WebContents` object this window owns. All web page related events and
+   * operations will be done via it.
+   *
+   * See the `webContents` documentation for its methods and events.
+   */
+  readonly webContents: TypedWebContents<IpcEvents>;
 }
 
 export interface TypedWebContents<IpcEvents extends InputMap>
@@ -128,7 +129,7 @@ export interface TypedWebContents<IpcEvents extends InputMap>
 // order of the methods is the same as in electron.d.ts
 interface TypedIpcMainMethods<
   IpcEvents extends InputMap,
-  IpcCommands extends InputMap
+  IpcCommands extends InputMap,
 > {
   /**
    * Adds a handler for an `invoke`able IPC. This handler will be called whenever a
@@ -202,7 +203,7 @@ interface TypedIpcMainMethods<
 // order of the methods is the same as in electron.d.ts
 interface TypedIpcRendererMethods<
   IpcEvents extends InputMap,
-  IpcCommands extends InputMap
+  IpcCommands extends InputMap,
 > {
   /**
    * Alias for `ipcRenderer.on`.
@@ -250,7 +251,7 @@ interface TypedIpcRendererMethods<
    */
   off<K extends keyof IpcEvents & string>(
     channel: K,
-    listener:  TypedIpcRendererEventListener<IpcEvents, IpcCommands, K>
+    listener: TypedIpcRendererEventListener<IpcEvents, IpcCommands, K>
   ): this;
   /**
    * Listens to `channel`, when a new message arrives `listener` would be called with
@@ -266,7 +267,7 @@ interface TypedIpcRendererMethods<
    */
   once<K extends keyof IpcEvents & string>(
     channel: K,
-    listener:  TypedIpcRendererEventListener<IpcEvents, IpcCommands, K>
+    listener: TypedIpcRendererEventListener<IpcEvents, IpcCommands, K>
   ): this;
   /**
    * Send a message to the main process, optionally transferring ownership of zero or
@@ -282,7 +283,11 @@ interface TypedIpcRendererMethods<
    * documentation.
    */
   // TODO: postMessage (define new type apart from Events and Commands?)
-  postMessage(channel: string, message: unknown, transfer?: MessagePort[]): void;
+  postMessage(
+    channel: string,
+    message: unknown,
+    transfer?: MessagePort[]
+  ): void;
   /**
    * Removes all listeners, or those of the specified `channel`.
    */
@@ -293,7 +298,7 @@ interface TypedIpcRendererMethods<
    */
   removeListener<K extends keyof IpcEvents & string>(
     channel: K,
-    listener:  TypedIpcRendererEventListener<IpcEvents, IpcCommands, K>
+    listener: TypedIpcRendererEventListener<IpcEvents, IpcCommands, K>
   ): this;
   /**
    * Send an asynchronous message to the main process via `channel`, along with
@@ -366,7 +371,8 @@ type InputMap = {
 };
 type InputMapToEventMap<IM extends InputMap> = {
   [k in keyof IM]: IM[k] extends (...args: infer A) => any
-    ? A extends any[] ? [TypedIpcMainEvent<IM>, ...A]
-    : never
+    ? A extends any[]
+      ? [TypedIpcMainEvent<IM>, ...A]
+      : never
     : never;
-}
+};

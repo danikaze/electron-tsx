@@ -1,4 +1,3 @@
-
 /**
  * Path to the preload built file
  *

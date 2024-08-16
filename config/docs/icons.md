@@ -40,12 +40,12 @@ The icon must be additionally loaded when instantiating your `BrowserWindow`.
 The path is provided by the `APP_ICON_PNG_PATH` value [defined in webpack](./webpack-defines.md).
 
 ```ts
-const { BrowserWindow } = require('electron')
+const { BrowserWindow } = require('electron');
 
 const win = new BrowserWindow({
   // the value comes automagically from webpack
-  icon: APP_ICON_PNG_PATH
-})
+  icon: APP_ICON_PNG_PATH,
+});
 ```
 
 Note that this icon needs to be accessible in the main/renderer

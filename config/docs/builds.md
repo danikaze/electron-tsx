@@ -73,6 +73,7 @@ Error caught: Error: Could not find light.exe or candle.exe
 ```
 
 It's because:
+
 - WiX Toolset is not installed ([download](https://wixtoolset.org/docs/wix3/))
 - WiX binaries (`C:\Program Files (x86)\WiX Toolset v3.14\bin`) are not included in the `PATH`
 

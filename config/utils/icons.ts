@@ -13,7 +13,9 @@ type Platform = Exclude<OfficialPlatform, 'mas'>;
  * - macOS will prefer `.icns` files
  * - linux will prefer `.png` files
  */
-export async function getIconPath(platform: OfficialPlatform): Promise<string | undefined> {
+export async function getIconPath(
+  platform: OfficialPlatform
+): Promise<string | undefined> {
   const icons = await getAllIcons();
   return icons[platform === 'mas' ? 'darwin' : platform][0];
 }
@@ -26,7 +28,7 @@ async function getAllIcons(): Promise<Record<Platform, string[]>> {
     win32: [],
     darwin: [],
     linux: [],
-  }
+  };
   const { iconPath } = await getAppConfig();
   const projectBaseIconPath = getProjectPath(iconPath);
   const iconFolder = dirname(projectBaseIconPath);
@@ -37,11 +39,11 @@ async function getAllIcons(): Promise<Record<Platform, string[]>> {
     return res;
   }
 
-  readdirSync(iconFolder).forEach((filename => {
+  readdirSync(iconFolder).forEach((filename) => {
     const platform = getIconPlatform(iconBase, filename);
     if (!platform) return;
     res[platform].push(join(iconFolder, filename));
-  }));
+  });
 
   Object.entries(res).forEach(([platform, icons]) => {
     if (icons.length === 0) {
@@ -62,7 +64,10 @@ async function getAllIcons(): Promise<Record<Platform, string[]>> {
 function getIconPlatform(base: string, filename: string): Platform | undefined {
   if (!filename.startsWith(base)) return;
   const ext = extname(filename);
-  const sizeSuffix = filename.substring(base.length, filename.length - ext.length);
+  const sizeSuffix = filename.substring(
+    base.length,
+    filename.length - ext.length
+  );
   if (!/^-\d+$/.test(sizeSuffix)) return;
   if (ext === '.ico') return 'win32';
   if (ext === '.icns') return 'darwin';

@@ -7,7 +7,7 @@ export const mainProcessConfig = getWebpackConfig('main', () => {
   const config: Configuration = {
     target: 'electron-main',
     entry: {
-      index: getProjectPath('src/main/index')
+      index: getProjectPath('src/main/index'),
     },
   };
 
