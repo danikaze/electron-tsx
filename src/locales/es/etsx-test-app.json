@@ -1,0 +1,5 @@
+{
+  "testLogMain": "i18n funciona en el proceso main!",
+  "testLogRenderer": "i18n funciona en el renderer!",
+  "renderedInFont": "Este texto está renderizado con una fuente {{format}} personalizada"
+}

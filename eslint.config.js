@@ -42,6 +42,12 @@ export default [
               message: 'Use the imports from @/ipc instead',
             },
           ],
+          patterns: [
+            {
+              group: ['*i18next*'],
+              message: 'Please use the provided utils/i18n instead',
+            },
+          ],
         },
       ],
 

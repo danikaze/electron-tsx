@@ -1,0 +1,7 @@
+{
+  "languages": "Language",
+  "debug": "Debug",
+  "debug.reload": "Reload",
+  "debug.fullscreen": "Toggle Full Screen",
+  "debug.devTools": "Toggle Developer Tools"
+}

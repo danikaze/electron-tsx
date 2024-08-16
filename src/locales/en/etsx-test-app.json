@@ -1,0 +1,8 @@
+{
+  "intro": "Electron TSX is a boilerplate repository to start Electron applications using React + TypeScript.",
+  "openInGithub": "Open in Github",
+  "versions": "Versions",
+  "supportedFonts": "Supported font formats",
+  "supportedImages": "Supported image formats",
+  "msgFromRenderer": "Message from renderer (without hooks)"
+}

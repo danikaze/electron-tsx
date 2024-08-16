@@ -34,7 +34,7 @@ Given that most Electron.js boilerplates are usually outdated or don't work prop
   - ☐ Hot Module Reloading
 - ☐ Redux/Zustand (TBD)
   - ☐ Redux dev tools
-- ☐ i18n
+- ☑ i18n
 
 Other nice features:
 

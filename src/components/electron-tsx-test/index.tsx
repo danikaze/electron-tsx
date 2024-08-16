@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { useTranslation } from '@/utils/i18n';
 
 // import regular css
 import '@/styles/reset-v2.css';
@@ -16,6 +17,7 @@ import svg from '@/assets/test/images/image.svg';
 import etsxIcon from 'config/icons/icon-512.png';
 
 export const ElectronTsxTestApp: FC = () => {
+  const { t } = useTranslation('etsx-test-app');
   const { versions } = window;
   const openGithub = () =>
     window.app.openExternal('https://github.com/danikaze/electron-tsx');
@@ -28,19 +30,16 @@ export const ElectronTsxTestApp: FC = () => {
       </h1>
 
       <section>
-        <p>
-          <b>Electron TSX</b> is a boilerplate repository to start Electron
-          applications using React + TypeScript.
-        </p>
+        <p>{t('intro')}</p>
         <p>
           <a href="#" onClick={openGithub}>
-            Open in Github
+            {t('openInGithub')}
           </a>
         </p>
       </section>
 
       <section>
-        <h3>Versions</h3>
+        <h3>{t('versions')}</h3>
         <ul>
           <li>
             <b>Node.js</b>: <code>{versions.node}</code>
@@ -55,7 +54,7 @@ export const ElectronTsxTestApp: FC = () => {
       </section>
 
       <section>
-        <h3>Supported font formats</h3>
+        <h3>{t('supportedFonts')}</h3>
         <div className={styles.flex}>
           <p className={styles.woff}>.woff</p>
           <p className={styles.woff2}>.woff2</p>
@@ -66,7 +65,7 @@ export const ElectronTsxTestApp: FC = () => {
       </section>
 
       <section>
-        <h3>Supported image formats</h3>
+        <h3>{t('supportedImages')}</h3>
         <div className={styles.flex}>
           <p>
             <img src={svg} />

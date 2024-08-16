@@ -22,7 +22,7 @@ function createWindow() {
   // and load the index.html of the app.
   mainWindow.loadFile(ENTRY_POINT_HTML);
 
-  console.log(`Message from main.js ${nanoid()}`);
+  console.log(`Message from main.js  ${nanoid()}`);
 
   ipcMain.handle('ready', (ev, what) => {
     console.log(`Ready via IPC (${what})`);

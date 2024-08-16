@@ -2,6 +2,8 @@ import { contextBridge } from 'electron';
 import { nanoid } from 'nanoid';
 
 import { ipcRenderer } from '@/ipc';
+import { I18N_WINDOW_NAMESPACE } from '@/utils/i18n/config';
+import { i18nPreloadBindings } from '@/utils/i18n/preload';
 import { prod } from '@/utils/test';
 
 /**
@@ -32,6 +34,12 @@ contextBridge.exposeInMainWorld('app', {
   ready: (caller: string) => ipcRenderer.invoke('ready', caller),
   openExternal: (url: string) => ipcRenderer.invoke('openExternal', url),
 });
+
+//  TODO: Move to i18n
+contextBridge.exposeInMainWorld(
+  I18N_WINDOW_NAMESPACE,
+  i18nPreloadBindings(ipcRenderer, process)
+);
 
 // simple invocation of a function using TypeScript
 prod(3, 5);

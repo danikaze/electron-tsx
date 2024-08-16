@@ -38,6 +38,7 @@ export const rendererConfig = getWebpackConfig(
             removeAttributeQuotes: true,
             removeComments: true,
           },
+          scriptLoading: 'module',
         }),
         isProduction && new MiniCssExtractPlugin({ filename: 'style.css' }),
       ],
