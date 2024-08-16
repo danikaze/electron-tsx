@@ -1,6 +1,7 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { Configuration, DefinePlugin } from 'webpack';
+import 'webpack-dev-server'; // needed for Configuration types
 
 import { getCssLocalIdent } from '../utils/get-css-local-ident';
 import { getProjectPath } from '../utils/get-project-path';
