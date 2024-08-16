@@ -76,7 +76,7 @@ export async function getWebpackConfig(
           'process.env.PACKAGE_VERSION': version,
           'process.env.BUILD_DATE': getDateString(),
           /* eslint-disable @typescript-eslint/naming-convention */
-          ENTRY_POINT_PRELOAD: join(webpackOutPath, 'preload', 'index.js'),
+          ENTRY_POINT_PRELOAD: join(webpackOutPath, 'preload', 'index.cjs'),
           ENTRY_POINT_HTML: join(webpackOutPath, 'renderer', 'index.html'),
           APP_ICON_PNG_PATH: await getIconPath('linux'),
           /* eslint-enable @typescript-eslint/naming-convention */

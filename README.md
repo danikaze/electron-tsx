@@ -35,9 +35,9 @@ Given that most Electron.js boilerplates are usually outdated or don't work prop
 - ☐ Redux/Zustand (TBD)
   - ☐ Redux dev tools
 - ☐ i18n
-- ☐ User stored preferences
-- ☐ Restore window positions
 
-Others:
+Other nice features:
 
-- [electron-debug](https://github.com/sindresorhus/electron-debug)
+- ☑ [electron-debug](https://github.com/sindresorhus/electron-debug)
+- ☑ User stored preferences
+  - ☑ Restore window positions
