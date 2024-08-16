@@ -7,3 +7,12 @@
  */
 export type WindowId = 'main';
 
+/**
+ * Position and size for the Electron Windows
+ */
+export interface WindowBounds {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
